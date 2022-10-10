@@ -10,33 +10,35 @@ t,s = symbols('t s');
 pprint_use_unicode(false);
 
 def speed(r_t,a,b):
-    v_t = r_t.diff(t, C)
+    v_t = r_t.diff(t, C).simplify()
 
     print("Velocity \n");
-    pprint(v_t ,use_unicode=false);
+    pprint(v_t);
 
     print("\n Speed \n")
     speed = v_t.magnitude().simplify()
-    pprint(speed,use_unicode = false);
+    pprint(speed);
 
     print("\n Length of trajectory \n")
-    pprint(integrate(speed,(t,a,b)))
+    pprint(integrate(speed,(t,a,b)).simplify())
 
 def torsion(r_t):
-    v = r_t.diff(t,C)
-    a = v.diff(t,C)
-    aprime = a.diff(t,C)
-    unit_tangent = v/(v.magnitude());
+    v = r_t.diff(t,C).simplify();
+    a = v.diff(t,C).simplify();
+    aprime = a.diff(t,C).simplify();
+    unit_tangent = (v/(v.magnitude())).simplify();
 
-    normal = unit_tangent.diff(t,C)
-    unit_normal = normal / normal.magnitude();
+    normal = unit_tangent.diff(t,C).simplify();
+    unit_normal = (normal / normal.magnitude()).simplify();
 
+
+    binormal = cross(unit_tangent,unit_normal).simplify();
     print("\n Binormal \n")
-    pprint(cross(unit_tangent,unit_normal).simplify())
+    pprint(binormal);
 
-    numerator = (cross(v,a)).dot(aprime)
+    numerator = ((cross(v,a)).dot(aprime)).simplify();
 
-    denominator = ((cross(v,a)).magnitude())**2
+    denominator = (((cross(v,a)).magnitude())**2).simplify();
 
     tor = (numerator/denominator).simplify()
 
@@ -115,32 +117,6 @@ def main():
         choices(choice,r_t,bounds)
 
 main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
